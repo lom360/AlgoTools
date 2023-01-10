@@ -23,8 +23,19 @@ int fibonacci_naive(int n) {
 
 int fibonacci_fast(int n) {
     // write your code here
+    int first = 0;
+    int second = 1;
+    int total = 0;
 
-    return 0;
+    if(n <= 1)
+        return n;
+
+    for(int i = 2; i <= n; i++) {
+        total = first + second;
+	first = second;
+	second = total;
+    } 
+    return total;
 }
 
 void test_solution() {
@@ -38,8 +49,8 @@ int main() {
     int n = 0;
     std::cin >> n;
 
-    std::cout << fibonacci_naive(n) << '\n';
+    //std::cout << fibonacci_naive(n) << '\n';
     //test_solution();
-    //std::cout << fibonacci_fast(n) << '\n';
+    std::cout << fibonacci_fast(n) << '\n';
     return 0;
 }
