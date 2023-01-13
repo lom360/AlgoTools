@@ -4,6 +4,9 @@
 #include <iomanip>
 using namespace std;
 
+double get_optimal_value(int capacity, vector<int> weights, vector<int> values);
+
+/*
 double get_optimal_value(int capacity, vector<int> weights, vector<int> values) {
     int n = weights.size();
     vector<pair<double, int>> items;
@@ -26,6 +29,7 @@ double get_optimal_value(int capacity, vector<int> weights, vector<int> values) 
     }
     return value;
 }
+*/
 
 int main() {
   int n;
@@ -42,4 +46,30 @@ int main() {
   //std::cout.precision(4);
   std::cout << fixed << setprecision(4) << optimal_value << std::endl;
   return 0;
+}
+
+double get_optimal_value(int capacity, vector<int> weights, vector<int> values) {
+   int n = weights.size();
+   vector<pair<double,int>> items; // double stores value_per_weight.
+   for(int i = 0; i < n; i++) {    // int stores index of calculated item.
+       double ratio = (double)values[i] / weights[i];
+       items.push_back({ratio, i});
+   }
+   // greater will sort from descending order.
+   sort(items.begin(), items.end(), greater<pair<double,int>>());
+
+   double value = 0.0;
+   for(auto &item : items) {
+      int index = item.second;
+      if(weights[index] <= capacity) {
+         value += values[index];
+	 capacity -= weights[index]; 
+      }
+      else {
+         value += capacity * ((double)values[index] / weights[index]);
+	 break;
+      }
+   }
+
+   return value;
 }
